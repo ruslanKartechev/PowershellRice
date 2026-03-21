@@ -1,0 +1,309 @@
+# : App {{{
+
+[app]
+overall = {}
+
+# : }}}
+
+
+# : Manager {{{
+
+[mgr]
+cwd = { fg = "yellow" }
+
+# Find
+find_keyword  = { fg = "yellow", bold = true, italic = true, underline = true }
+find_position = { fg = "magenta", bg = "reset", bold = true, italic = true }
+
+# Symlink
+symlink_target = { italic = true }
+
+# Marker
+marker_copied   = { fg = "lightgreen",  bg = "lightgreen" }
+marker_cut      = { fg = "lightred",    bg = "lightred" }
+marker_marked   = { fg = "lightcyan",   bg = "lightcyan" }
+marker_selected = { fg = "lightyellow", bg = "lightyellow" }
+
+# Count
+count_copied   = { fg = "white", bg = "green" }
+count_cut      = { fg = "white", bg = "red" }
+count_selected = { fg = "black", bg = "yellow" }
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "gray" }
+
+# Highlighting
+syntect_theme = ""
+
+# : }}}
+
+
+# : Tabs {{{
+
+[tabs]
+active   = { bg = "blue", bold = true }
+inactive = { fg = "blue", bg = "gray" }
+
+# Separator
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
+# : }}}
+
+
+# : Mode {{{
+
+[mode]
+normal_main = { bg = "blue", bold = true }
+normal_alt  = { fg = "blue", bg = "gray" }
+
+# Select mode
+select_main = { bg = "red", bold = true }
+select_alt  = { fg = "red", bg = "gray" }
+
+# Unset mode
+unset_main = { bg = "red", bold = true }
+unset_alt  = { fg = "red", bg = "gray" }
+
+# : }}}
+
+
+# : Indicator of hovered file {{{
+
+[indicator]
+parent  = { reversed = true }
+current = { reversed = true, fg = "#050505", bg = "white"}
+preview = { underline = true }
+padding = { open = ">>", close = "<<" }
+
+# : }}}
+
+
+# : Status bar {{{
+
+[status]
+overall   = {}
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+
+# Permissions
+perm_sep   = { fg = "darkgray" }
+perm_type  = { fg = "green" }
+perm_read  = { fg = "yellow" }
+perm_write = { fg = "red" }
+perm_exec  = { fg = "cyan" }
+
+# Progress
+progress_label  = { bold = true }
+progress_normal = { fg = "green", bg = "black" }
+progress_error  = { fg = "yellow", bg = "red" }
+
+# : }}}
+
+
+# : Which {{{
+
+[which]
+cols            = 3
+mask            = { bg = "black" }
+cand            = { fg = "lightcyan" }
+rest            = { fg = "darkgray" }
+desc            = { fg = "lightmagenta" }
+separator       = ">"
+separator_style = { fg = "darkgray" }
+
+# : }}}
+
+
+# : Confirmation {{{
+
+[confirm]
+border     = { fg = "blue" }
+title      = { fg = "blue" }
+body       = {}
+list       = {}
+btn_yes    = { reversed = true }
+btn_no     = {}
+btn_labels = [ "  [Y]es  ", "  (N)o  " ]
+
+# : }}}
+
+
+# : Spotter {{{
+
+[spot]
+border = { fg = "blue" }
+title  = { fg = "blue" }
+
+# Table
+tbl_col  = { fg = "blue" }
+tbl_cell = { fg = "yellow", reversed = true }
+
+# : }}}
+
+
+# : Notification {{{
+
+[notify]
+title_info  = { fg = "green" }
+title_warn  = { fg = "yellow" }
+title_error = { fg = "red" }
+
+# Icons
+icon_info  = "I"
+icon_warn  = "W"
+icon_error = "R"
+
+# : }}}
+
+
+# : Picker {{{
+
+[pick]
+border   = { fg = "blue" }
+active   = { fg = "magenta", bold = true }
+inactive = {}
+
+# : }}}
+
+
+# : Input {{{
+
+[input]
+border   = { fg = "blue" }
+title    = {}
+value    = {}
+selected = { reversed = true }
+
+# : }}}
+
+
+# : Completion {{{
+
+[cmp]
+border   = { fg = "blue" }
+active   = { reversed = true }
+inactive = {}
+
+# Icons
+icon_file    = "📄"
+icon_folder  = "📁"
+icon_command = "C"
+
+# : }}}
+
+
+# : Task manager {{{
+
+[tasks]
+border  = { fg = "blue" }
+title   = {}
+hovered = { fg = "magenta", bold = true }
+
+# : }}}
+
+
+# : Help menu {{{
+
+[help]
+on      = { fg = "cyan" }
+run     = { fg = "magenta" }
+desc    = {}
+hovered = { reversed = true, bold = true }
+footer  = { fg = "black", bg = "white" }
+
+# : }}}
+
+
+# : File-specific styles {{{
+
+[filetype]
+rules = [
+	# Image
+	{ mime = "image/*", fg = "yellow" },
+	# Media
+	{ mime = "{audio,video}/*", fg = "magenta" },
+	# Archive
+	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "red" },
+	# Document
+	{ mime = "application/{pdf,doc,rtf}", fg = "cyan" },
+	# Virtual file system
+	{ mime = "vfs/{absent,stale}", fg = "gray" },
+	# Special file
+	{ url = "*", is = "orphan", bg = "red" },
+	{ url = "*", is = "exec"  , fg = "green" },
+	# Dummy file
+	{ url = "*", is = "dummy", bg = "red" },
+	{ url = "*/", is = "dummy", bg = "red" },
+	# Fallback
+	{ url = "*/", fg = "blue" }
+]
+
+# : }}}
+
+
+# : Icons {{{
+
+[icon]
+globs = []
+dirs  = [
+	{ name = ".config", text = "\u26ED", fg = "#ff9800" },
+	{ name = ".git", text = "G", fg = "#FFbcd4" },
+	{ name = ".github", text = "G", fg = "#FFbcd4" },
+	{ name = ".npm", text = "N", fg = "#FFbcd4" },
+	{ name = "Desktop", text = "\u1F481", fg = "#00bcd4" },
+	{ name = "Documents", text = "\uF5BA", fg = "#00bcd4" },
+	{ name = "Downloads", text = "\u1F4E6", fg = "#00bcd4" },
+	{ name = "Movies", text = "\u239A", fg = "#00bcd4" },
+	{ name = "Music", text = "\u1F56A", fg = "#00bcd4" },
+	{ name = "Public", text = "P", fg = "#00bcd4" },
+	{ name = "Videos", text = "\u239A", fg = "#00bcd4" },
+]
+files = [
+]
+exts = [
+	{ name = "exe", text = "\u1F525", fg = "#ffffff" },
+	{ name = "c", text = "C", fg = "#ffffff" },
+	{ name = "cpp", text = "\u002B", fg = "#ffffff" },
+	{ name = "hpp", text = "\u002B", fg = "#ffffff" },
+	{ name = "cs", text = "CS", fg = "#ffffff" },
+	{ name = "py", text = "\u1F40D", fg = "#ffffff" },
+	
+    { name = "ps1", text = "\uF7F6", fg = "#ffffff" },
+	{ name = "bash", text = "\u1F5F2", fg = "#ffffff" },
+	{ name = "bat", text = "\u1F5F2", fg = "#ffffff" },
+
+	{ name = "mp3", text = "\u1F56A", fg = "#ffffff" },
+	{ name = "wav", text = "\u1F56A", fg = "#ffffff" },
+	{ name = "flac", text = "\u1F56A", fg = "#ffffff" },
+	{ name = "aac", text = "\u1F56A", fg = "#ffffff" },
+	{ name = "ogg", text = "\u1F56A", fg = "#ffffff" },
+
+	{ name = "mp4", text = "\u239A", fg = "#ffffff" },
+
+	{ name = "config", text = "\u26ED", fg = "#ffffff" },
+	{ name = "meta", text = "", fg = "#909090" },
+
+	{ name = "gitignore", text = "\u1F68F", fg = "#ffffff" },
+	{ name = "gitattributes", text = "\u1F69A", fg = "#ffffff" },
+
+
+]
+conds = [
+	# Special files
+	{ if = "orphan", text = "", fg = "#8bc5ef" },
+	{ if = "link", text = "L", fg = "#9e9e9e" },
+	{ if = "block", text = "", fg = "#cddc39" },
+	{ if = "char", text = "", fg = "#cddc39" },
+	{ if = "fifo", text = "", fg = "#cddc39" },
+	{ if = "sock", text = "", fg = "#cddc39" },
+	{ if = "sticky", text = "", fg = "#cddc39" },
+	{ if = "dummy", text = "", fg = "#f44336" },
+	# Fallback
+	{ if = "dir", text = "📁", fg = "#01e341" },
+	{ if = "exec", text = "\u1F525", fg = "#fa9e9e" },
+	{ if = "!dir", text = "📄", fg = "#f4f2f2" },
+]
+
+# : }}}
