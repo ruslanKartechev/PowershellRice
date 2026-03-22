@@ -1,0 +1,24 @@
+[font]
+normal = { family = "Lucida Console"}
+size = 14.0
+
+[general]
+live_config_reload = true
+working_directory = "c:\"
+
+[window]
+decorations = "None"
+startup_mode = "Fullscreen"
+dynamic_title = true
+level = "Normal"
+
+[scrolling]
+history = 512
+multiplier = 4
+
+[cursor]
+style = {shape = "block", blinking = "Always"}
+blink_interval = 200
+
+[mouse]
+hide_when_typing = false

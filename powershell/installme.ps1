@@ -1,10 +1,25 @@
 
 function check_python(){
-
-
+    Write-Host "*** Checking Python 3 and Pip... ***" -ForegroundColor Cyan
+    if (Get-Command python -ErrorAction SilentlyContinue) {
+        $version = python --version
+        Write-Host "Python is already installed ($version)." -ForegroundColor Green
+    }
+    else {
+        Write-Host "Python not found. Installing via Scoop..." -ForegroundColor Yellow
+        scoop install python
+    }
+    if (Get-Command pip -ErrorAction SilentlyContinue) {
+        Write-Host "pip already installed" -ForegroundColor Green
+    }
+    else {
+        Write-Host "pip not found in PATH. Attempting to bootstrap..." -ForegroundColor Yellow
+        python -m ensurepip --upgrade
+        python -m pip install --upgrade pip
+    }
 }
 
-function check_if_installed(){
+function install_packages(){
     $scoopTool = "scoop"
     $tools = @("yazi","lf","alacritty")
     Write-Host "`n"
@@ -48,7 +63,7 @@ function copy_powershell_profile(){
     Write-Host "`n"
     Write-Host "*** Copying custom profile... ***" -ForegroundColor Cyan
 
-    $myProfile = Join-Path $PSScriptRoot "Microsoft.PowerShell_profile.ps1"
+    $myProfile = Join-Path $pwd "Microsoft.PowerShell_profile.ps1"
     $targetPath = $PROFILE
     $TargetDir = Split-Path $targetPath
 
@@ -77,7 +92,7 @@ function copy_yazi_configs_files(){
     Write-Host "`n"
     Write-Host "*** Copying custom yazi config files... ***" -ForegroundColor Cyan
 
-    $ParentPath = Split-Path -Path $PSScriptRoot -Parent
+    $ParentPath = Split-Path -Path $pwd -Parent
     
     $myConfigMain = Join-Path $ParentPath "\yazi\yazi.toml"
     $myConfigTheme = Join-Path $ParentPath "\yazi\theme.toml"
@@ -131,6 +146,20 @@ function copy_yazi_configs_files(){
     Copy-Item -Path $myConfigKeymaps -Destination $keymaps -Force
 }
 
+function copy_alacrity_configs(){
+    $ParentPath = Split-Path -Path $pwd -Parent
+    $alacrityPath = Join-Path $env:APPDATA "\alacritty\alacritty.toml"
+      if(!(Test-Path -Path $alacrityPath)){
+        New-Item -ItemType File -Path $alacrityPath -Force
+        Write-Host "+ Created a NEW alacritty config:`n'$alacrityPath'" -ForegroundColor Green
+    }
+    else{
+        Write-Host "+ Alacritty config already exists"
+    }
+    $myConfig = Join-Path $ParentPath "\alacritty\alacritty.toml"
+    Copy-Item -Path $myConfig -Destination $alacrityPath -Force
+    Write-Host "+ Copied alacritty configs" -ForegroundColor Green
+}
 
 
 function copy_ls(){
@@ -138,7 +167,10 @@ function copy_ls(){
 }
 
 
-check_if_installed("")
-copy_powershell_profile("")
-copy_yazi_configs_files("")
-copy_ls("")
+
+copy_powershell_profile
+install_packages
+check_python
+copy_alacrity_configs
+copy_yazi_configs_files
+copy_ls
