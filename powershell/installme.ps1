@@ -1,3 +1,13 @@
+  $tools = @(
+        "yazi", 
+        "lf", 
+        "fzf", 
+        "btop", 
+        "fd", 
+        "ripgrep",
+        "eza",
+        "alacritty")
+
 
 function check_python(){
     Write-Host "*** Checking Python 3 and Pip... ***" -ForegroundColor Cyan
@@ -21,7 +31,7 @@ function check_python(){
 
 function install_packages(){
     $scoopTool = "scoop"
-    $tools = @("yazi","lf","alacritty")
+  
     Write-Host "`n"
     Write-Host "*** Installing my CLI tools... ***" -ForegroundColor Cyan
     Write-Host "Will try to install the following packages:"

@@ -4,10 +4,11 @@ size = 14.0
 
 [general]
 live_config_reload = true
-working_directory = "c:\"
+working_directory = "c:\\"
 
 [window]
 decorations = "None"
+#startup_mode = "Windowed" | "Maximized" | "Fullscreen" | "SimpleFullscreen"
 startup_mode = "Fullscreen"
 dynamic_title = true
 level = "Normal"

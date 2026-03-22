@@ -12,6 +12,7 @@ $LOCATION_C_PROJECTS = "C:\GitRepos\c_projects\"
 $LOCATION_RENDERER = "C:\GitRepos\c_projects\renderer"
 $LOCATION_PS_STAFF = "C:\GitRepos\win_shell_staff\powershell"
 
+#Aliases
 Set-Alias -Name 'python3' -Value 'python'
 Set-Alias -Name 'python3' -Value 'py'
 Set-Alias -Name 'python' -Value 'py'
@@ -24,22 +25,25 @@ Clear-Host
 # Setings Titles
 $host.ui.RawUI.WindowTitle = "Turtle Shell"
 
-$ascii_art = @"
+
+#A cool welcome message
+function welcome(){
+    $ascii_art = @"
     _________________________
    < Welcome Home, Hunter  >
     -------------------------
-   @@@                      @@@
-  @{"}                      {"}@
- @(.(.)\__              __/(.).)@
-@@@) (                      ) (@@@
-  ( . )                    ( . )
-   \  |                     \  (    /
-    ) }                      ', `-_/_
-    //                          '~ \
-   /|\                              \
+   @@@                 @@@
+  @{"}                 {"}@
+ @(.(.)\__         __/(.).)@
+@@@) (                 ) (@@@
+  ( . )               ( . )
+   \  |                \  (    /
+    ) }                 ', `-_/_
+    //                     '~ \
+   /|\                         \
 "@
-Write-Host $ascii_art -ForegroundColor Magenta
-
+    Write-Host $ascii_art -ForegroundColor Magenta
+}
 
 # Custom prompt before every input
 function prompt {
@@ -198,3 +202,58 @@ function debug_update_profile(){
     copy_powershell_profile("")
     reload_alac("")
 }
+
+function openme(){
+    explorer $pwd
+}
+
+
+
+# Only add the type if it hasn't been added in this session
+if (-not ([System.Management.Automation.PSTypeName]'WinAp').Type) {
+    Add-Type @"
+    using System;
+    using System.Runtime.InteropServices;
+    public class WinAp {
+        [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hWnd);
+        [DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
+        [DllImport("user32.dll")] public static extern bool IsIconic(IntPtr hWnd);
+        [DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
+        [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
+        [DllImport("user32.dll")] public static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+    }
+"@
+}
+
+function Invoke-WindowFocus {
+    param([IntPtr]$hWnd)
+    if ($hWnd -eq [IntPtr]::Zero) 
+    { 
+        return $false 
+    }
+    $foregroundHWnd = [WinAp]::GetForegroundWindow()
+    $currentThreadId = [WinAp]::GetWindowThreadProcessId($foregroundHWnd, [IntPtr]::Zero)
+    $targetThreadId = [WinAp]::GetWindowThreadProcessId($hWnd, [IntPtr]::Zero)
+    [WinAp]::AttachThreadInput($currentThreadId, $targetThreadId, $true)
+    if ([WinAp]::IsIconic($hWnd)) {
+        [WinAp]::ShowWindowAsync($hWnd, 9) # Restore
+    }
+    [WinAp]::ShowWindowAsync($hWnd, 5) # Show
+    $result = [WinAp]::SetForegroundWindow($hWnd)
+    [WinAp]::AttachThreadInput($currentThreadId, $targetThreadId, $false)
+    return $result
+}
+
+function chrome(){
+    $chrome = Get-Process chrome -ErrorAction SilentlyContinue | Where-Object { $_.MainWindowHandle -ne 0 } | Select-Object -First 1
+    if ($chrome) {
+        Invoke-WindowFocus $chrome.MainWindowHandle
+    }
+    else {
+        Write-Host "Chrome is closed. Launching new instance..." -ForegroundColor Yellow
+        Start-Process "chrome.exe"
+    }
+}
+
+
+welcome
