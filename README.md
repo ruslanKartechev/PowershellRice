@@ -14,13 +14,14 @@ I normally use Alacritty(https://alacritty.org/) on top of windows powershell, s
 ## 📂 Repository Structure
 `/powershell` --->  Powershell config and powershell scripts. Auto installation is also there.<br>
 `/rscripts` --->  Various PS scripts.<br>
+`/alacritty` --->  Alacritty configs and fonts.<br>
 `/yazi` --->  Configuration files for the Yazi file manager..<br>
 `/lf` --->  Configuration files for the LF file manager..<br>
 
 ## 🚀 Show to copy?
 ##### 1. Clone the repository
 ```powershell
-git clone [https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git)
+git clone https://github.com/ruslanKartechev/PowershellRice
 ```
 ##### 2. Run the installme.ps1 script. It will automaticall install scoop, CLI tools, python and copy the powershell profile and all other config files. 
 ```powershell
