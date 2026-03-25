@@ -4,6 +4,15 @@ $LOCATION_UNITY_PROJECTS = "C:\UnityWork\"
 $LOCATION_GIT_REPOS = "C:\GitRepos"
 $LOCATION_DESKTOP = "$LOC_USER\OneDrive\Desktop"
 $LOCATION_DOCUMENTS = "$LOC_USER\OneDrive\Documents"
+
+if(!(Test-Path -Path $LOCATION_DESKTOP)){
+    $LOCATION_DESKTOP = "$LOC_USER\Desktop"
+}
+if(!(Test-Path -Path $LOCATION_DOCUMENTS)){
+    $LOCATION_DOCUMENTS = "$LOC_USER\Documents"
+}
+
+
 $LOCATION_DOWNLOADS = "$LOC_USER\Downloads"
 $LOCATION_APP_DATA = "$LOC_USER\AppData"
 $LOCATION_APP_DATA_LOCAL = "$LOCATION_APP_DATA\local"
@@ -14,11 +23,11 @@ $LOCATION_BWENGINE = "$LOCATION_GIT_REPOS\c_projects\bwengine"
 
 $LOCATION_PS_STAFF = "$LOCATION_GIT_REPOS\PowershellRice\powershell"
 $LOCATION_INSTALL_ME = "$LOCATION_GIT_REPOS\PowershellRice\powershell"
-
-$LOCATION_UNITY_MECH = "$LOCATION_GIT_REPOS\MechanicSimulator"
-$LOCATION_UNITY_DRIVER = "$LOCATION_GIT_REPOS\Driver"
-$LOCATION_UNITY_WINTER = "$LOCATION_GIT_REPOS\WinterCar"
-
+# UNITY PROJECT CURRENTLY ACTUVE
+$LOCATION_UNITY_MECH = "$LOCATION_UNITY_PROJECTS\MechanicSimulator"
+$LOCATION_UNITY_DRIVER = "$LOCATION_UNITY_PROJECTS\Driver"
+$LOCATION_UNITY_WINTER = "$LOCATION_UNITY_PROJECTS\WinterCar"
+$UNITY_EXE = "C:\Program Files\Unity Hub\Unity Hub.exe"
 
 
 #Aliases
@@ -112,7 +121,10 @@ function goto ($name) {
     }
 }
 
-
+function unity(){
+    echo "Calling Unity Hub executable from:`n$UNITY_EXE"
+    & "$UNITY_EXE"
+}
 
 function copy_alac(){
     $alacrittyPath = (Get-Command -Name alacritty.exe).Path
