@@ -1,16 +1,25 @@
 #Defined Locations to jump to
-$LOCATION_DESKTOP = "C:\users\$env:USERNAME\OneDrive\Desktop"
-$LOCATION_DOCUMENTS = "C:\users\$env:USERNAME\OneDrive\Documents"
-$LOCATION_DOWNLOADS = "C:\users\$env:USERNAME\Downloads"
-$LOCATION_APP_DATA = "C:\users\$env:USERNAME\AppData"
-$LOCATION_APP_DATA_LOCAL = "C:\users\$env:USERNAME\AppData\local"
-$LOCATION_APP_DATA_ROAMING = "C:\users\$env:USERNAME\AppData\roaming"
-
-$LOCATION_UNITY_PROJECTS = "C:\MyUnityWork\Projects"
+$LOC_USER = "C:\users\$env:USERNAME\"
+$LOCATION_UNITY_PROJECTS = "C:\UnityWork\"
 $LOCATION_GIT_REPOS = "C:\GitRepos"
-$LOCATION_C_PROJECTS = "C:\GitRepos\c_projects\"
-$LOCATION_RENDERER = "C:\GitRepos\c_projects\renderer"
-$LOCATION_PS_STAFF = "C:\GitRepos\win_shell_staff\powershell"
+$LOCATION_DESKTOP = "$LOC_USER\OneDrive\Desktop"
+$LOCATION_DOCUMENTS = "$LOC_USER\OneDrive\Documents"
+$LOCATION_DOWNLOADS = "$LOC_USER\Downloads"
+$LOCATION_APP_DATA = "$LOC_USER\AppData"
+$LOCATION_APP_DATA_LOCAL = "$LOCATION_APP_DATA\local"
+$LOCATION_APP_DATA_ROAMING = "$LOCATION_APP_DATA\roaming"
+$LOCATION_C_PROJECTS = "$LOCATION_GIT_REPOS\c_projects\"
+$LOCATION_RENDERER = "$LOCATION_GIT_REPOS\c_projects\renderer"
+$LOCATION_BWENGINE = "$LOCATION_GIT_REPOS\c_projects\bwengine"
+
+$LOCATION_PS_STAFF = "$LOCATION_GIT_REPOS\PowershellRice\powershell"
+$LOCATION_INSTALL_ME = "$LOCATION_GIT_REPOS\PowershellRice\powershell"
+
+$LOCATION_UNITY_MECH = "$LOCATION_GIT_REPOS\MechanicSimulator"
+$LOCATION_UNITY_DRIVER = "$LOCATION_GIT_REPOS\Driver"
+$LOCATION_UNITY_WINTER = "$LOCATION_GIT_REPOS\WinterCar"
+
+
 
 #Aliases
 Set-Alias -Name 'python3' -Value 'python'
@@ -29,18 +38,12 @@ $host.ui.RawUI.WindowTitle = "Turtle Shell"
 #A cool welcome message
 function welcome(){
     $ascii_art = @"
-    _________________________
-   < Welcome Home, Hunter  >
-    -------------------------
-   @@@                 @@@
-  @{"}                 {"}@
- @(.(.)\__         __/(.).)@
-@@@) (                 ) (@@@
-  ( . )               ( . )
-   \  |                \  (    /
-    ) }                 ', `-_/_
-    //                     '~ \
-   /|\                         \
+ __      __       .__                                ___.                  __         .__                  __               ._.
+/  \    /  \ ____ |  |   ____  ____   _____   ____   \_ |__ _____    ____ |  | __     |  |__  __ __  _____/  |_  ___________| |
+\   \/\/   // __ \|  | _/ ___\/  _ \ /     \_/ __ \   | __ \\__  \ _/ ___\|  |/ /     |  |  \|  |  \/    \   __\/ __ \_  __ \ |
+ \        /\  ___/|  |_\  \__(  <_> )  Y Y  \  ___/   | \_\ \/ __ \\  \___|    <      |   Y  \  |  /   |  \  | \  ___/|  | \/\|
+  \__/\  /  \___  >____/\___  >____/|__|_|  /\___  >  |___  (____  /\___  >__|_ \ /\  |___|  /____/|___|  /__|  \___  >__|   __
+       \/       \/          \/            \/     \/       \/     \/     \/     \/ )/       \/           \/          \/       \/
 "@
     Write-Host $ascii_art -ForegroundColor Magenta
 }
@@ -66,6 +69,8 @@ function goto_or_make($name){
 }
 
 
+# Helper Function for navigation. Uses key-value pairs to cd into a location by its alias
+# To add a new path alias -> insert it into the switch statement and update the PS profile
 function goto ($name) {
     
     switch ($name) {
@@ -75,12 +80,18 @@ function goto ($name) {
         "appdata" {Set-Location $LOCATION_APP_DATA}
         "appdata_roaming" {Set-Location $LOCATION_APP_DATA_ROAMING}
         "appdata_local" {Set-Location $LOCATION_APP_DATA_LOCAL}
-        
+        "ps_staff" {goto_or_make($LOCATION_PS_STAFF)}
+        "installme" {goto_or_make($LOCATION_INSTALL_ME)}
+
+        "unity_mech" {goto_or_make($LOCATION_UNITY_MECH)}
+        "unity_winter" {goto_or_make($LOCATION_UNITY_WINTER)}
+        "unity_driver" {goto_or_make($LOCATION_UNITY_DRIVER)}
+
         "unitywork"  { goto_or_make($LOCATION_UNITY_PROJECTS) }
         "cwork"  { goto_or_make($LOCATION_C_PROJECTS) }
         "c_rend" {goto_or_make($LOCATION_RENDERER)}
+        "bw_engine" {goto_or_make($LOCATION_BWENGINE)}
         "repos" {goto_or_make($LOCATION_GIT_REPOS)}
-        "ps_staff" {Set-Location $LOCATION_PS_STAFF}
         "." {
                 return 1 
             }
@@ -89,12 +100,18 @@ function goto ($name) {
             }
         default  
         { 
+            $rooted = [System.IO.Path]::IsPathRooted($name);
+            if($rooted){
+                cd $name
+                return
+            }  
             $path = Join-Path $pwd $name
             Write-Host "No key for location: '$name'`ncd into '$path'" -ForegroundColor White
             cd $path
         }
     }
 }
+
 
 
 function copy_alac(){

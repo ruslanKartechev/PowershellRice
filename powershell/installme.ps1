@@ -1,3 +1,20 @@
+function welcome(){
+    $ascii_art = @"
+    _________________________
+              ,
+     __  _.-"` `'-.
+    /11\'._ __0_(
+    |11|  |'--.__\
+    |  L.(   ^_\^
+    \ .-' |   _ |
+    | |   )\___/
+    |  \-'`:._]
+    \__/;      '-.
+"@
+    Write-Host $ascii_art -ForegroundColor Magenta
+    Write-Host "Please, wait a bit, installing packages and config files" -ForegroundColor Magenta
+}
+
   $tools = @(
         "yazi", 
         "lf", 
@@ -177,7 +194,7 @@ function copy_ls(){
 }
 
 
-
+welcome
 copy_powershell_profile
 install_packages
 check_python
