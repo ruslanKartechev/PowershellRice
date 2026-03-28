@@ -9,7 +9,7 @@ working_directory = "c:\\"
 [window]
 decorations = "None"
 #startup_mode = "Windowed" | "Maximized" | "Fullscreen" | "SimpleFullscreen"
-startup_mode = "Fullscreen"
+startup_mode = "Maximized"
 dynamic_title = true
 level = "Normal"
 

@@ -35,12 +35,9 @@ Set-Alias -Name 'python3' -Value 'python'
 Set-Alias -Name 'python3' -Value 'py'
 Set-Alias -Name 'python' -Value 'py'
 
-#Colors
 $Host.UI.RawUI.BackgroundColor = "Black"
 $Host.UI.RawUI.ForegroundColor = "Cyan"
 Clear-Host
-
-# Setings Titles
 $host.ui.RawUI.WindowTitle = "Turtle Shell"
 
 
@@ -238,6 +235,10 @@ function openme(){
 
 
 
+# --- --- ---
+# Focusing 'Hack' doesn't work on modern windows version. Tested on win10 and win11
+# --- --- ---
+
 # Only add the type if it hasn't been added in this session
 if (-not ([System.Management.Automation.PSTypeName]'WinAp').Type) {
     Add-Type @"
@@ -272,17 +273,8 @@ function Invoke-WindowFocus {
     [WinAp]::AttachThreadInput($currentThreadId, $targetThreadId, $false)
     return $result
 }
+# --- --- ---
 
-function chrome(){
-    $chrome = Get-Process chrome -ErrorAction SilentlyContinue | Where-Object { $_.MainWindowHandle -ne 0 } | Select-Object -First 1
-    if ($chrome) {
-        Invoke-WindowFocus $chrome.MainWindowHandle
-    }
-    else {
-        Write-Host "Chrome is closed. Launching new instance..." -ForegroundColor Yellow
-        Start-Process "chrome.exe"
-    }
-}
 
 
 welcome
